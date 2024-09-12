@@ -1,0 +1,47 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <algorithm> 
+
+using namespace std;
+void appendToFile(const string &filename, const string &data) {
+    ofstream outFile;
+    outFile.open(filename, ios::app); 
+    if (outFile.is_open()) {
+        outFile << data << endl; 
+        outFile.close();
+        cout << "Data has been appended in file " << filename << " . " << endl;
+    } else {
+        cout << "Error opening the file " << filename << endl;
+    }
+}
+void reverseFileContent(const string &inputFile, const string &outputFile) {
+    ifstream inFile(inputFile);
+    if (inFile.is_open()) {
+        string content((istreambuf_iterator<char>(inFile)), istreambuf_iterator<char>()); // Read entire file content
+        inFile.close();
+
+        reverse(content.begin(), content.end());
+
+        ofstream outFile(outputFile);
+        if (outFile.is_open()) {
+            outFile << content;
+            outFile.close();
+            cout << "Content reversed and saved to " << outputFile << " successfully." << endl;
+        } else {
+            cout << "Error opening the output file " << outputFile << endl;
+        }
+    } else {
+        cout << "Error opening the input file " << inputFile << endl;
+    }
+}
+int main() {
+    string userInput;
+    string filename = "CSC450_CT5_mod5.txt";
+    string reversedFilename = "CSC450-mod5-reverse.txt";
+    cout << "Enter the data you want to append to the file: ";
+    getline(cin, userInput);
+    appendToFile(filename, userInput);
+    reverseFileContent(filename, reversedFilename);
+    return 0;
+}
